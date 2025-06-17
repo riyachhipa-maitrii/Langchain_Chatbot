@@ -63,6 +63,7 @@ chatInput.addEventListener('keypress', async (e) => {
 
     try {
       const res = await fetch('http://13.53.214.205:5000/chat', {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: msg })
