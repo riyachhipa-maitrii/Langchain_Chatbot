@@ -20,53 +20,49 @@ function showGreetingWords() {
     setTimeout(() => {
       word.style.opacity = '1';
       word.style.transform = 'translateY(0)';
-    }, index * 150); // Adjust delay as needed (e.g., 100ms per word for faster animation)
+    }, index * 150);
   });
 }
 
 setTimeout(() => {
-  zunoGreeting.style.display = 'block'; // Ensure it's block so 'show' class can transition effectively
+  zunoGreeting.style.display = 'block';
   setTimeout(() => {
     zunoGreeting.classList.add('show');
-    showGreetingWords(); // Call function to reveal words sequentially
+    showGreetingWords();
     zunoGreetingTimeout = setTimeout(() => {
       zunoGreeting.classList.remove('show');
       setTimeout(() => {
         zunoGreeting.style.display = 'none';
       }, 500);
-    }, 5000); // Hide after 5 seconds
+    }, 5000);
   }, 100);
 }, 1000);
 
-// Show the chat window when user clicks icon
 chatBtn.onclick = () => {
   console.log('Chat button clicked!');
   chatWindow.style.display = 'flex';
   chatBtn.style.display = 'none';
-  // Hide the greeting popup immediately if open
   zunoGreeting.classList.remove('show');
   zunoGreeting.style.display = 'none';
   if (zunoGreetingTimeout) clearTimeout(zunoGreetingTimeout);
   chatBody.scrollTop = chatBody.scrollHeight;
 };
 
-// Close chat window
 closeBtn.onclick = () => {
   chatWindow.style.display = 'none';
   chatBtn.style.display = 'block';
 };
 
-// Handle user input
 chatInput.addEventListener('keypress', async (e) => {
   if (e.key === 'Enter' && chatInput.value.trim() !== '') {
     const msg = chatInput.value.trim();
     chatInput.value = '';
-    chatBody.innerHTML += `<div class=\"message user\"><b>You:</b> ${msg}</div>`;
-    chatBody.innerHTML += `<div class=\"message ai\" id=\"loading\">AI is typing...</div>`;
+    chatBody.innerHTML += `<div class="message user"><b>You:</b> ${msg}</div>`;
+    chatBody.innerHTML += `<div class="message ai" id="loading">AI is typing...</div>`;
     chatBody.scrollTop = chatBody.scrollHeight;
 
     try {
-      const res = await fetch('http://localhost:5500/chat', {
+      const res = await fetch('http://13.53.214.205:5000/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: msg })
@@ -74,10 +70,10 @@ chatInput.addEventListener('keypress', async (e) => {
 
       const data = await res.json();
       document.getElementById('loading').remove();
-      chatBody.innerHTML += `<div class=\"message ai\"><b>AI:</b> ${data.response}</div>`;
+      chatBody.innerHTML += `<div class="message ai"><b>AI:</b> ${data.response}</div>`;
     } catch (error) {
       document.getElementById('loading').remove();
-      chatBody.innerHTML += `<div class=\"message ai\"><b>AI:</b> Sorry, I couldn't connect to the server.</div>`;
+      chatBody.innerHTML += `<div class="message ai"><b>AI:</b> Sorry, I couldn't connect to the server.</div>`;
     }
 
     chatBody.scrollTop = chatBody.scrollHeight;
