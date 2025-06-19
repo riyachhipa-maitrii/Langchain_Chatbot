@@ -62,7 +62,7 @@ chatInput.addEventListener('keypress', async (e) => {
     chatBody.scrollTop = chatBody.scrollHeight;
 
     try {
-      const res = await fetch('http://13.53.214.205:5000/chat', {
+      const res = await fetch('http://13.61.184.140:5000/ask', {
 
 
         method: 'POST',
